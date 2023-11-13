@@ -1,9 +1,23 @@
 #include "main.h"
 
+/**
+ * _isdigit - digit
+ * @c: the character
+ *
+ * Return: 1
+ */
+
 int _isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
+
+/**
+ * _strlen - string
+ * @s: string
+ *
+ * Return: int
+ */
 
 int _strlen(char *s)
 {
@@ -15,7 +29,13 @@ int _strlen(char *s)
 	}
 
 	return (r);
-}
+}/**
+ * print_number - number
+ * @str: string
+ * @params: struct
+ *
+ * Return: chars
+ */
 
 int print_number(char *str, params_t *params)
 {
@@ -43,6 +63,14 @@ int print_number(char *str, params_t *params)
 	}
 }
 
+/**
+ * print_number_right_shift - number
+ * @str: string
+ * @params: struct
+ *
+ * Return: chars printed
+ */
+
 int print_number_right_shift(char *str, params_t *params)
 {
 	unsigned int n = 0;
@@ -63,6 +91,14 @@ int print_number_right_shift(char *str, params_t *params)
 
 	return (n);
 }
+
+/**
+ * print_number_left_shift - number
+ * @str: string
+ * @params:  struct
+ *
+ * Return: chars
+ */
 
 int print_number_left_shift(char *str, params_t *params)
 {
