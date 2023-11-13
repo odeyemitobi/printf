@@ -1,5 +1,14 @@
 #include "main.h"
 
+/**
+ * print_from_to - print addresses
+ * @start: start
+ * @stop: stop
+ * @except: except
+ *
+ * Return: number
+ */
+
 int print_from_to(char *start, char *stop, char *except)
 {
 	int add = 0;
@@ -10,6 +19,14 @@ int print_from_to(char *start, char *stop, char *except)
 		;
 	return (add);
 }
+
+/**
+ * print_rev - string reverse
+ * @xy: string
+ * @params: the parameters struct
+ *
+ * Return: number bytes printed
+ */
 
 
 int print_rev(va_list xy, params_t *params)
@@ -23,6 +40,13 @@ int print_rev(va_list xy, params_t *params)
 	return (add);
 }
 
+/**
+ * print_rot13 -  string rot13
+ * @xy: string
+ * @params: the parameters struct
+ *
+ * Return: number bytes printed
+ */
 
 int print_rot13(va_list xy, params_t *params)
 {
