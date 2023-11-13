@@ -29,7 +29,9 @@ int _strlen(char *s)
 	}
 
 	return (r);
-}/**
+}
+
+/**
  * print_number - number
  * @str: string
  * @params: struct
