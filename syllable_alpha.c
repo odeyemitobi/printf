@@ -1,5 +1,14 @@
 #include "main.h"
 
+/**
+ * print_char - prints character
+ * @xy:  pointer
+ * @params: parameters struct
+ *
+ * Return: number of characters printed
+ */
+
+
 int print_char(va_list xy, params_t *params)
 {
 	char space_char = ' ';
@@ -17,12 +26,28 @@ int print_char(va_list xy, params_t *params)
 	return (add);
 }
 
+/**
+ * print_int - prints integer
+ * @xy: pointer
+ * @params: parameters struct
+ *
+ * Return: numberof characters printed
+ */
+
 int print_int(va_list xy, params_t *params)
 {
 	long l = va_arg(xy, int);
 
 	return (print_number(convert(l, 10, 0, params), params));
 }
+
+/**
+ * print_string - prints string
+ * @xy:  pointer
+ * @params: parameters struct
+ *
+ * Return: number of characters printed
+ */
 
 int print_string(va_list xy, params_t *params)
 {
@@ -40,12 +65,28 @@ int print_string(va_list xy, params_t *params)
 	return (add);
 }
 
+/**
+ * print_percent - prints
+ * @xy: pointer
+ * @params: struct
+ *
+ * Return: number of characters printed
+ */
+
 int print_percent(va_list xy, params_t *params)
 {
 	(void)xy;
 	(void)params;
 	return (_putchar('%'));
 }
+
+/**
+ * print_S - format specifier
+ * @xy: pointer
+ * @params: parameters
+ *
+ * Return: number of characters printed
+ */
 
 int print_S(va_list xy, params_t *params)
 {
