@@ -23,9 +23,9 @@ int (*get_specifier(char c))(va_list xy, params_t *params)
 		{ 0, NULL }
 	};
 
-	for (int i = 0; specifiers[i].specifier; i++) {
-		if (c == specifiers[i].specifier) {
-			return specifiers[i].f;
+	for (int i = 0; specifiers[i].specifier; i++)	{
+		if (c == specifiers[i].specifier) 	{
+			return (specifiers[i].f);
 		}
 	}
 
