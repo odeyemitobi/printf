@@ -24,42 +24,63 @@ int print_number(char *str, params_t *params)
 		params->precision == UINT_MAX ? 0 : params->precision;
 	char pad_char = params->zero_flag && !params->minus_flag ? '0' : ' ';
 
-	unsigned int n = 0;
-	if (params->minus_flag)
+	if (!params->unsign && *str == '-')
 	{
-		if (!params->unsign && *str == '-')
-		{
-			n += _putchar('-');
-			str++;
-			len--;
-		}
-		if (params->plus_flag && !(*str == '-' || *str == '0'))
-		{
-			n += _putchar('+');
-		}
-		n += _puts(str);
-
-		while (len++ < precision) n += _putchar('0');
-
-		while (len++ < params->width) n += _putchar(pad_char);
-
-	} else
-	{
-		while (len++ < precision) n += _putchar('0');
-
-		if (!params->unsign && *str == '-')
-
-		{
-			n += _putchar('-');
-			str++;
-			len--;
-		}
-		if (params->plus_flag && !(*str == '-' || *str == '0'))
-		{
-			n += _putchar('+');
-		}
-		n += _puts(str);
-		while (len++ < params->width) n += _putchar(pad_char);
+		str++;
+		len--;
 	}
+	while (len++ < precision)
+	{
+		*--str = '0';
+	}
+
+	if (!params->minus_flag)
+	{
+		return (print_number_right_shift(str, params));
+	}
+	{
+		return (print_number_left_shift(str, params));
+	}
+}
+
+int print_number_right_shift(char *str, params_t *params)
+{
+	unsigned int n = 0;
+	char pad_char = params->zero_flag && !params->minus_flag ? '0' : ' ';
+
+	if ((params->plus_flag || params->space_flag) &&
+			!(*str == '-' || *str == '0'))
+	{
+		n += _putchar(params->plus_flag ? '+' : ' ');
+	}
+
+	while (_strlen(str) < params->width)
+	{
+		n += _putchar(pad_char);
+	}
+
+	n += _puts(str);
+
+	return (n);
+}
+
+int print_number_left_shift(char *str, params_t *params)
+{
+	unsigned int n = 0;
+	char pad_char = params->zero_flag && !params->minus_flag ? '0' : ' ';
+
+	if ((params->plus_flag || params->space_flag) &&
+			!(*str == '-' || *str == '0'))
+	{
+		n += _putchar(params->plus_flag ? '+' : ' ');
+	}
+
+	n += _puts(str);
+
+	while (_strlen(str) < params->width)
+	{
+		n += _putchar(pad_char);
+	}
+
 	return (n);
 }
