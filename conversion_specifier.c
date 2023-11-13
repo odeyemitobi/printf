@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * get_specifier - format function
+ * @c: string
+ * Return: bytes printed
+ */
+
 int (*get_specifier(char c))(va_list xy, params_t *params)
 {
 	static struct {
@@ -32,6 +38,14 @@ int (*get_specifier(char c))(va_list xy, params_t *params)
 	return (NULL);
 }
 
+/**
+ * get_print_func - format
+ * @s: string
+ * @xy: pointer
+ * @params: parameters struct
+ * Return: bytes printed
+ */
+
 int get_print_func(char *s, va_list xy, params_t *params)
 {
 	int (*f)(va_list, params_t *) = get_specifier(s);
@@ -41,6 +55,12 @@ int get_print_func(char *s, va_list xy, params_t *params)
 	return (0);
 }
 
+/**
+ * get_flag - flag functions
+ * @s: format string
+ * @params: the parameters struct
+ * Return: flag valid
+ */
 
 int get_flag(char *s, params_t *params)
 
@@ -69,6 +89,14 @@ int get_flag(char *s, params_t *params)
 }
 
 
+/**
+ * get_modifier - modifier function
+ * @s: string
+ * @params: structure
+ * Return: modifier
+ */
+
+
 int get_modifier(char *s, params_t *params)
 {
 	int r = 0;
@@ -84,6 +112,15 @@ int get_modifier(char *s, params_t *params)
 	}
 	return (r);
 }
+
+
+/**
+ * get_width - width
+ * @s: string
+ * @params: the parameters struct
+ * @xy: pointer
+ * Return: pointer
+ */
 
 
 char *get_width(char *s, params_t *params, va_list xy)
