@@ -10,7 +10,7 @@
  * Return: string
  */
 
-char *convert(long int num, int base, int flags)
+char *convert(long int num, int base, int flags, params_t *params)
 {
 	static char arrange[16] = "0123456789abcdef";
 	static char buffer[50];
