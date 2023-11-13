@@ -1,5 +1,15 @@
 #include "main.h"
 
+/**
+ * convert - converter
+ * @num: number
+ * @base: base
+ * @flags: flags
+ * @params: paramater struct
+ *
+ * Return: string
+ */
+
 char *convert(long int num, int base, int flags)
 {
 	static char arrange[16] = "0123456789abcdef";
@@ -18,6 +28,13 @@ char *convert(long int num, int base, int flags)
 	return (pointer);
 }
 
+/**
+ * print_unsigned - unsigned numbers
+ * @xy: pointer
+ * @params: the parameters struct
+ *
+ * Return: bytes printed
+ */
 
 
 int print_unsigned(va_list xy, params_t *params)
@@ -34,6 +51,15 @@ int print_unsigned(va_list xy, params_t *params)
 	params->unsign = 1;
 	return (print_number(convert(l, 10, CONVERT_UNSIGNED), params));
 }
+
+
+/**
+ * print_address - shows address
+ * @xy: pointer
+ * @params: the parameters struct
+ *
+ * Return: bytes printed
+ */
 
 
 int print_address(va_list xy, params_t *params)
