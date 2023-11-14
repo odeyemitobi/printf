@@ -1,3 +1,8 @@
+/*
+ * File: integer_format.c
+ * Auth: Odeyemi Tobiloba and Asita Emmanuella
+ */
+
 #include "main.h"
 
 /**
