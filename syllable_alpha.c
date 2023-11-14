@@ -1,3 +1,8 @@
+/*
+ * File: syllable_alpha.c
+ * Auth: Odeyemi Tobiloba and Asita Emmanuella
+ */
+
 #include "main.h"
 
 /**
