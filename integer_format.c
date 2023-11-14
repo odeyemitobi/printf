@@ -28,3 +28,4 @@ char *get_precision(char *s, params_t *params, va_list xy)
 	params->precision = int_number;
 	return (s);
 }
+
