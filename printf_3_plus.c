@@ -17,8 +17,7 @@ int _printf(const char *format, ...)
 	va_start(xy, format);
 
 	if (!format || (format[0] == '%' &&
-				(!format[1] || (format[1] == ' ' &&
-						!format[2]))))
+				(!format[1] || (format[1] == ' ' && !format[2]))))
 		return (-1);
 
 	for (p = (char *)format; *p; p++)
@@ -43,12 +42,9 @@ int _printf(const char *format, ...)
 
 		if (!get_specifier(p))
 			add += print_from_to(start, p,
-					params.l_modifier ||
-					params.h_modifier ? p - 1 : 0)
-				;
+					params.l_modifier || params.h_modifier ? p - 1 : 0);
 		else
-			add += get_print_func(p, xy, &params)
-				;
+			add += get_print_func(p, xy, &params);
 	}
 	_putchar(BUF_FLUSH);
 	va_end(xy);
