@@ -1,5 +1,13 @@
 #include "main.h"
 
+/**
+ * print_char - prints character
+ * @xy:  pointer
+ * @params: parameters struct
+ *
+ * Return: number of characters printed
+ */
+
 int print_char(va_list xy, params_t *params)
 {
 	int ch = va_arg(xy, int);
@@ -12,6 +20,14 @@ int print_char(va_list xy, params_t *params)
 	
 	return (add);
 }
+
+/**
+ * print_int - prints integer
+ * @xy: pointer
+ * @params: parameters struct
+ *
+ * Return: numberof characters printed
+ */
 
 int print_int(va_list xy, params_t *params)
 {
