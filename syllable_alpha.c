@@ -120,7 +120,7 @@ int print_S(va_list xy, params_t *params)
 		;
 
 	for (; *str; str++)
-		{
+	{
 		if ((*str > 0 && *str < 32) || *str >= 127)
 		{
 			add += _putchar('\\');
