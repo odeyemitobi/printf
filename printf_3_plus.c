@@ -43,13 +43,14 @@ int _printf(const char *format, ...)
 
 		if (!get_specifier(p))
 			add += print_from_to(start, p,
-					params.l_modifier || params.h_modifier ? p - 1 : 0)
+					params.l_modifier ||
+					params.h_modifier ? p - 1 : 0)
 				;
 		else
-			add += get_print_func(p, xy, &params);
+			add += get_print_func(p, xy, &params)
+				;
 	}
 	_putchar(BUF_FLUSH);
 	va_end(xy);
 	return (add);
 }
-
