@@ -37,8 +37,8 @@ int print_char(va_list xy, params_t *params)
 
 int print_int(va_list xy, params_t *params)
 {
-	long l = va_arg(xy, int);
-	
+	long l = va_arg(xy, int)
+		;
 	return (print_number(convert(l, 10, 0, params), params));
 }
 
