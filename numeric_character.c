@@ -6,7 +6,6 @@
  *
  * Return: 1
  */
-
 int _isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
@@ -18,16 +17,12 @@ int _isdigit(int c)
  *
  * Return: int
  */
-
 int _strlen(char *s)
 {
 	int r = 0;
 
 	while (*s++)
-	{
 		r++;
-	}
-
 	return (r);
 }
 
@@ -38,31 +33,28 @@ int _strlen(char *s)
  *
  * Return: chars
  */
-
 int print_number(char *str, params_t *params)
 {
-	unsigned int len = _strlen(str);
-	unsigned int precision =
-		params->precision == UINT_MAX ? 0 : params->precision;
-	char pad_char = params->zero_flag && !params->minus_flag ? '0' : ' ';
+	unsigned int r = _strlen(str);
+	int v = (!params->unsign && *str == '-');
 
-	if (!params->unsign && *str == '-')
+	if (!params->precision && *str == '0' && !str[1])
+		str = "";
+	if (v)
 	{
 		str++;
-		len--;
+		r--;
 	}
-	while (len++ < precision)
-	{
-		*--str = '0';
-	}
+	if (params->precision != UINT_MAX)
+		while (r++ < params->precision)
+			*--str = '0';
+	if (v)
+		*--str = '-';
 
 	if (!params->minus_flag)
-	{
 		return (print_number_right_shift(str, params));
-	}
-	{
+	else
 		return (print_number_left_shift(str, params));
-	}
 }
 
 /**
@@ -72,25 +64,38 @@ int print_number(char *str, params_t *params)
  *
  * Return: chars printed
  */
-
 int print_number_right_shift(char *str, params_t *params)
 {
-	unsigned int n = 0;
-	char pad_char = params->zero_flag && !params->minus_flag ? '0' : ' ';
+	unsigned int n = 0, v, z, r = _strlen(str);
+	char pad_char = ' ';
 
-	if ((params->plus_flag || params->space_flag) &&
-			!(*str == '-' || *str == '0'))
-	{
-		n += _putchar(params->plus_flag ? '+' : ' ');
-	}
-
-	while (_strlen(str) < params->width)
-	{
+	if (params->zero_flag && !params->minus_flag)
+		pad_char = '0';
+	v = z = (!params->unsign && *str == '-');
+	if (v && r < params->width && pad_char == '0' && !params->minus_flag)
+		str++;
+	else
+		v = 0;
+	if ((params->plus_flag && !z) ||
+		(!params->plus_flag && params->space_flag && !z))
+		r++;
+	if (v && pad_char == '0')
+		n += _putchar('-');
+	if (params->plus_flag && !z && pad_char == '0' && !params->unsign)
+		n += _putchar('+');
+	else if (!params->plus_flag && params->space_flag && !z &&
+		!params->unsign && params->zero_flag)
+		n += _putchar(' ');
+	while (r++ < params->width)
 		n += _putchar(pad_char);
-	}
-
+	if (v && pad_char == ' ')
+		n += _putchar('-');
+	if (params->plus_flag && !z && pad_char == ' ' && !params->unsign)
+		n += _putchar('+');
+	else if (!params->plus_flag && params->space_flag && !z &&
+		!params->unsign && !params->zero_flag)
+		n += _putchar(' ');
 	n += _puts(str);
-
 	return (n);
 }
 
@@ -101,24 +106,25 @@ int print_number_right_shift(char *str, params_t *params)
  *
  * Return: chars
  */
-
 int print_number_left_shift(char *str, params_t *params)
 {
-	unsigned int n = 0;
-	char pad_char = params->zero_flag && !params->minus_flag ? '0' : ' ';
+	unsigned int n = 0, v, z, r = _strlen(str);
+	char pad_char = ' ';
 
-	if ((params->plus_flag || params->space_flag) &&
-			!(*str == '-' || *str == '0'))
-	{
-		n += _putchar(params->plus_flag ? '+' : ' ');
-	}
+	if (params->zero_flag && !params->minus_flag)
+		pad_char = '0';
+	v = z = (!params->unsign && *str == '-');
+	if (v && r < params->width && pad_char == '0' && !params->minus_flag)
+		str++;
+	else
+		v = 0;
 
+	if (params->plus_flag && !z && !params->unsign)
+		n += _putchar('+'), r++;
+	else if (params->space_flag && !z && !params->unsign)
+		n += _putchar(' '), r++;
 	n += _puts(str);
-
-	while (_strlen(str) < params->width)
-	{
+	while (r++ < params->width)
 		n += _putchar(pad_char);
-	}
-
 	return (n);
 }

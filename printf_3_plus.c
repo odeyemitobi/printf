@@ -49,4 +49,3 @@ int _printf(const char *format, ...)
 	va_end(xy);
 	return (add);
 }
-

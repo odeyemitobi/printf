@@ -2,39 +2,41 @@
 
 /**
  * get_specifier - format function
- * @c: string
+ * @s: string
  * Return: bytes printed
  */
 
-int (*get_specifier(char c))(va_list xy, params_t *params)
+int (*get_specifier(char *s))(va_list xy, params_t *params)
+
 {
-	static struct {
-		char specifier;
-		int (*f)(va_list, params_t *);
-	} specifiers[] = {
-		{ 'c', print_char },
-		{ 'd', print_int },
-		{ 'i', print_int },
-		{ 's', print_string },
-		{ '%', print_percent },
-		{ 'b', print_binary },
-		{ 'o', print_octal },
-		{ 'u', print_unsigned },
-		{ 'x', print_hex },
-		{ 'X', print_HEX },
-		{ 'p', print_address },
-		{ 'S', print_S },
-		{ 'r', print_rev },
-		{ 'R', print_rot13 },
-		{ 0, NULL }
+	specifier_t specifiers[] = {
+		{"c", print_char},
+		{"d", print_int},
+		{"i", print_int},
+		{"s", print_string},
+		{"%", print_percent},
+		{"b", print_binary},
+		{"o", print_octal},
+		{"u", print_unsigned},
+		{"x", print_hex},
+		{"X", print_HEX},
+		{"p", print_address},
+		{"S", print_S},
+		{"r", print_rev},
+		{"R", print_rot13},
+		{NULL, NULL}
 	};
 
-	for (int i = 0; specifiers[i].specifier; i++)
-		if (c == specifiers[i].specifier)
-			return (specifiers[i].f);
+	int r = 0;
 
-
-
+	while (specifiers[r].specifier)
+	{
+		if (*s == specifiers[r].specifier[0])
+		{
+			return (specifiers[r].f);
+		}
+		r++;
+	}
 	return (NULL);
 }
 
@@ -88,14 +90,12 @@ int get_flag(char *s, params_t *params)
 	return (r);
 }
 
-
 /**
  * get_modifier - modifier function
  * @s: string
  * @params: structure
  * Return: modifier
  */
-
 
 int get_modifier(char *s, params_t *params)
 {
@@ -113,7 +113,6 @@ int get_modifier(char *s, params_t *params)
 	return (r);
 }
 
-
 /**
  * get_width - width
  * @s: string
@@ -121,7 +120,6 @@ int get_modifier(char *s, params_t *params)
  * @xy: pointer
  * Return: pointer
  */
-
 
 char *get_width(char *s, params_t *params, va_list xy)
 {
@@ -140,5 +138,3 @@ char *get_width(char *s, params_t *params, va_list xy)
 	params->width = int_number;
 	return (s);
 }
-
-
