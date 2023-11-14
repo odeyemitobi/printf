@@ -111,14 +111,12 @@ int print_percent(va_list xy, params_t *params)
 
 int print_S(va_list xy, params_t *params)
 {
-	char *str = va_arg(xy, char *)
-		;
-	if (!str)
-		return _puts(NULL_STRING)
-		;
-	int add = 0
-		;
+	char *str = va_arg(xy, char *);
+	char *hex;
+	int add = 0;
 
+	if ((int)(!str))
+		return (_puts(NULL_STRING));
 	for (; *str; str++)
 	{
 		if ((*str > 0 && *str < 32) || *str >= 127)
