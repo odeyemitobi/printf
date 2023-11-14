@@ -10,13 +10,15 @@
 
 int print_char(va_list xy, params_t *params)
 {
-	int ch = va_arg(xy, int);
-	int pad = params->width - 1;
-	int add = (params->minus_flag) ? _putchar(ch) + pad : pad + _putchar(ch)
-		;
-	while (pad-- > 0)
-		add += _putchar(' ')
-		;
+	char space_char = ' ';
+	unsigned int pad = 1, add = 0, ch = va_arg(xy, int);
+
+	if (params->minus_flag)
+		add += _putchar(ch);
+	while (pad++ < params->width)
+		add += _putchar(space_char);
+	if (!params->minus_flag)
+		add += _putchar(ch);
 	return (add);
 }
 
@@ -30,8 +32,14 @@ int print_char(va_list xy, params_t *params)
 
 int print_int(va_list xy, params_t *params)
 {
-	long l = (params->l_modifier) ? va_arg(xy, long) :
-		 (params->h_modifier) ? (short int)va_arg(xy, int) : va_arg(xy, int);
+	long l;
+
+	if (params->l_modifier)
+		l = va_arg(xy, long);
+	else if (params->h_modifier)
+		l = (short int)va_arg(xy, int);
+	else
+		l = (int)va_arg(xy, int);
 	return (print_number(convert(l, 10, 0, params), params));
 }
 
@@ -45,18 +53,36 @@ int print_int(va_list xy, params_t *params)
 
 int print_string(va_list xy, params_t *params)
 {
-	char *str = va_arg
-		(xy, char *)
-		;
-	if (!str)
-		str = NULL_STRING
-			;
-	unsigned int pad = params->width - _strnlen
-		(str, params->precision)
-		;
-	int add = (params->minus_flag) ? _puts(str, params->precision) +
-		pad : pad + _puts(str, params->precision)
-		;
+	char *str = va_arg(xy, char *), space_char = ' ';
+	unsigned int pad = 0, add = 0, r = 0, j;
+
+	(void)params;
+	switch ((int)(!str))
+		case 1:
+			str = NULL_STRING;
+
+	j = pad = _strlen(str);
+	if (params->precision < pad)
+		j = pad = params->precision;
+
+	if (params->minus_flag)
+	{
+		if (params->precision != UINT_MAX)
+			for (r = 0; r < pad; r++)
+				add += _putchar(*str++);
+		else
+			add += _puts(str);
+	}
+	while (j++ < params->width)
+		add += _putchar(space_char);
+	if (!params->minus_flag)
+	{
+		if (params->precision != UINT_MAX)
+			for (r = 0; r < pad; r++)
+				add += _putchar(*str++);
+		else
+			add += _puts(str);
+	}
 	return (add);
 }
 
@@ -94,9 +120,20 @@ int print_S(va_list xy, params_t *params)
 		;
 
 	for (; *str; str++)
-		add += (*str > 0 && *str < 32) || *str >= 127 ? _putchar('\\') +
-			_putchar('x') + ((_puts(convert(*str, 16, 0, params) + 1)) ? 1 :
-			 _putchar('0')) + _puts(convert(*str, 16, 0, params)) : _putchar(*str)
-			;
+		{
+		if ((*str > 0 && *str < 32) || *str >= 127)
+		{
+			add += _putchar('\\');
+			add += _putchar('x');
+			hex = convert(*str, 16, 0, params);
+			if (!hex[1])
+				add += _putchar('0');
+			add += _puts(hex);
+		}
+		else
+		{
+			add += _putchar(*str);
+		}
+	}
 	return (add);
 }
