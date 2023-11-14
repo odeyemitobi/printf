@@ -7,22 +7,17 @@
  *
  * Return: number of characters printed
  */
-
-
 int print_char(va_list xy, params_t *params)
 {
 	char space_char = ' ';
-	int pad = params->width - 1, add = 0;
-	char ch = va_arg(xy, int);
+	unsigned int pad = 1, add = 0, ch = va_arg(xy, int);
 
-	if (!params->minus_flag)
-	{
-		while (pad--)
-			add += _putchar(space_char);
-	}
-	add += _putchar(ch);
-	while (pad--)
+	if (params->minus_flag)
+		add += _putchar(ch);
+	while (pad++ < params->width)
 		add += _putchar(space_char);
+	if (!params->minus_flag)
+		add += _putchar(ch);
 	return (add);
 }
 
@@ -33,11 +28,16 @@ int print_char(va_list xy, params_t *params)
  *
  * Return: numberof characters printed
  */
-
 int print_int(va_list xy, params_t *params)
 {
-	long l = va_arg(xy, int);
+	long l;
 
+	if (params->l_modifier)
+		l = va_arg(xy, long);
+	else if (params->h_modifier)
+		l = (short int)va_arg(xy, int);
+	else
+		l = (int)va_arg(xy, int);
 	return (print_number(convert(l, 10, 0, params), params));
 }
 
@@ -48,20 +48,38 @@ int print_int(va_list xy, params_t *params)
  *
  * Return: number of characters printed
  */
-
 int print_string(va_list xy, params_t *params)
 {
-	char *str = va_arg(xy, char *);
-	int pad = params->width - _strlen(str), add = 0;
+	char *str = va_arg(xy, char *), space_char = ' ';
+	unsigned int pad = 0, add = 0, r = 0, j;
 
+	(void)params;
+	switch ((int)(!str))
+		case 1:
+			str = NULL_STRING;
+
+	j = pad = _strlen(str);
+	if (params->precision < pad)
+		j = pad = params->precision;
+
+	if (params->minus_flag)
+	{
+		if (params->precision != UINT_MAX)
+			for (r = 0; r < pad; r++)
+				add += _putchar(*str++);
+		else
+			add += _puts(str);
+	}
+	while (j++ < params->width)
+		add += _putchar(space_char);
 	if (!params->minus_flag)
 	{
-		while (pad--)
-			add += _putchar(' ');
+		if (params->precision != UINT_MAX)
+			for (r = 0; r < pad; r++)
+				add += _putchar(*str++);
+		else
+			add += _puts(str);
 	}
-	add += _puts(str);
-	while (pad--)
-		add += _putchar(' ');
 	return (add);
 }
 
@@ -72,7 +90,6 @@ int print_string(va_list xy, params_t *params)
  *
  * Return: number of characters printed
  */
-
 int print_percent(va_list xy, params_t *params)
 {
 	(void)xy;
@@ -87,12 +104,14 @@ int print_percent(va_list xy, params_t *params)
  *
  * Return: number of characters printed
  */
-
 int print_S(va_list xy, params_t *params)
 {
-	char *str = va_arg(xy, char *), *hex;
+	char *str = va_arg(xy, char *);
+	char *hex;
 	int add = 0;
 
+	if ((int)(!str))
+		return (_puts(NULL_STRING));
 	for (; *str; str++)
 	{
 		if ((*str > 0 && *str < 32) || *str >= 127)
@@ -103,7 +122,8 @@ int print_S(va_list xy, params_t *params)
 			if (!hex[1])
 				add += _putchar('0');
 			add += _puts(hex);
-		} else
+		}
+		else
 		{
 			add += _putchar(*str);
 		}

@@ -10,10 +10,21 @@
 
 char *get_precision(char *s, params_t *params, va_list xy)
 {
+	int int_number = 0;
+
 	if (*s != '.')
 		return (s);
 	s++;
-	params->precision = (*s == '*') ? va_arg(xy, int) : _strtol(s, &s, 10);
+	if (*s == '*')
+	{
+		int_number = va_arg(xy, int);
+		s++;
+	}
+	else
+	{
+		while (_isdigit(*s))
+			int_number = int_number * 10 + (*s++ - '0');
+	}
+	params->precision = int_number;
 	return (s);
 }
-
